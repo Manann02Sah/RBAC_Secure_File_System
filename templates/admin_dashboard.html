@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - File Access System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-shield"></i> Admin Dashboard</h2>
+    <a href="{{ url_for('files.upload_file') }}" class="btn btn-primary">
+        <i class="fas fa-upload"></i> Upload File
+    </a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-users text-primary" style="font-size: 2em;"></i>
+                <h5 class="card-title mt-2">Total Users</h5>
+                <h3 class="text-primary">{{ total_users }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-files text-success" style="font-size: 2em;"></i>
+                <h5 class="card-title mt-2">Total Files</h5>
+                <h3 class="text-success">{{ total_files }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-user-clock text-warning" style="font-size: 2em;"></i>
+                <h5 class="card-title mt-2">Pending Users</h5>
+                <h3 class="text-warning">{{ pending_users|length }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if pending_users %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-user-clock"></i> Pending User Approvals</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in pending_users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at[:10] }}</td>
+                        <td>
+                            <a href="{{ url_for('approve_user', user_id=user.id) }}" 
+                               class="btn btn-sm btn-success">
+                                <i class="fas fa-check"></i> Approve
+                            </a>
+                            <a href="{{ url_for('reject_user', user_id=user.id) }}" 
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to reject this user?')">
+                                <i class="fas fa-times"></i> Reject
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-cogs"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('manage_users') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-users"></i> Manage All Users
+                    </a>
+                    <a href="{{ url_for('files.list_files') }}" class="btn btn-outline-success">
+                        <i class="fas fa-files"></i> View All Files
+                    </a>
+                    <a href="{{ url_for('files.upload_file') }}" class="btn btn-outline-info">
+                        <i class="fas fa-upload"></i> Upload New File
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> System Information</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><strong>Encryption:</strong> AES-128</li>
+                    <li><strong>File Storage:</strong> Local with encryption</li>
+                    <li><strong>User Roles:</strong> Admin, User, Guest</li>
+                    <li><strong>Theme:</strong> {{ session.get('theme', 'light').title() }} Mode</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Upload File - File Access System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-upload"></i> Upload File</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select File</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                        <div class="form-text">
+                            Allowed types: txt, pdf, png, jpg, jpeg, gif, doc, docx, zip, rar (Max: 16MB)
+                        </div>
+                    </div>
+                    
+                    {% if session.role == 'admin' %}
+                    <div class="mb-3">
+                        <label for="folder" class="form-label">Folder</label>
+                        <select class="form-select" id="folder" name="folder">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                            <option value="public">Public</option>
+                        </select>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="visibility" class="form-label">Visibility</label>
+                        <select class="form-select" id="visibility" name="visibility">
+                            <option value="private">Private</option>
+                            <option value="public">Public</option>
+                        </select>
+                        <div class="form-text">
+                            Public files can be viewed by anyone, including guests.
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload File
+                    </button>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

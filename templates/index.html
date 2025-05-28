@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-5 animate__animated animate__fadeInUp">
+            <h1 class="display-3 mb-4 fw-bold">
+                <i class="fas fa-file-shield text-primary pulse"></i>
+                <br>Secure File Access System
+            </h1>
+            <p class="lead mb-4 fs-4">
+                A comprehensive role-based file management system with military-grade AES-128 encryption, 
+                supporting multiple user roles and secure file operations.
+            </p>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <span class="badge bg-primary fs-6 px-3 py-2">
+                    <i class="fas fa-shield-alt"></i> AES-128 Encrypted
+                </span>
+                <span class="badge bg-success fs-6 px-3 py-2">
+                    <i class="fas fa-users"></i> Role-Based Access
+                </span>
+                <span class="badge bg-info fs-6 px-3 py-2">
+                    <i class="fas fa-server"></i> User Friendly
+                </span>
+            </div>
+        </div>
+        
+        <!-- Feature Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card h-100 file-card animate__animated animate__fadeInLeft">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-eye text-info file-icon"></i>
+                        <h4 class="card-title mb-3">Guest Access</h4>
+                        <p class="card-text mb-4">
+                            View and browse public files directly in your browser without any registration required. 
+                            Perfect for sharing documents publicly.
+                        </p>
+                        <a href="{{ url_for('files.list_files') }}" class="btn btn-info btn-lg">
+                            <i class="fas fa-search"></i> Browse Files
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 file-card animate__animated animate__fadeInUp">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-user text-success file-icon"></i>
+                        <h4 class="card-title mb-3">User Access</h4>
+                        <p class="card-text mb-4">
+                            Upload, download, and manage your personal files with military-grade encryption. 
+                            Organize your documents securely in the cloud.
+                        </p>
+                        {% if not session.user_id %}
+                            <a href="{{ url_for('auth.register') }}" class="btn btn-success btn-lg">
+                                <i class="fas fa-user-plus"></i> Register Now
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-success btn-lg">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 file-card animate__animated animate__fadeInRight">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-user-shield text-warning file-icon"></i>
+                        <h4 class="card-title mb-3">Admin Access</h4>
+                        <p class="card-text mb-4">
+                            Complete system control: manage users, approve accounts, control permissions, 
+                            and monitor all file operations across the platform.
+                        </p>
+                        {% if session.role == 'admin' %}
+                            <a href="{{ url_for('manage_users') }}" class="btn btn-warning btn-lg">
+                                <i class="fas fa-cogs"></i> Manage System
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('auth.login') }}" class="btn btn-warning btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Admin Login
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Features Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-5 fw-bold">
+                    <i class="fas fa-star text-warning"></i> System Features
+                </h2>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stats-card">
+                            <i class="fas fa-lock stats-icon text-primary"></i>
+                            <h5 class="fw-bold">AES-128 Encryption</h5>
+                            <p class="mb-0">Military-grade file encryption for maximum security</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stats-card">
+                            <i class="fas fa-users-cog stats-icon text-success"></i>
+                            <h5 class="fw-bold">Role Management</h5>
+                            <p class="mb-0">Granular access control with admin approval system</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stats-card">
+                            <i class="fas fa-cloud-upload-alt stats-icon text-info"></i>
+                            <h5 class="fw-bold">File Operations</h5>
+                            <p class="mb-0">Upload, download, view, and manage files seamlessly</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stats-card">
+                            <i class="fas fa-palette stats-icon text-warning"></i>
+                            <h5 class="fw-bold">Dark/Light Mode</h5>
+                            <p class="mb-0">Beautiful themes with smooth transitions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Specifications -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-cog"></i> Technical Specifications
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Backend:</strong> Flask (Python 3.12)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Database:</strong> SQLite with encryption
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Security:</strong> AES-128 + Password hashing
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Authentication:</strong> Session-based with roles
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Frontend:</strong> Html CSS Js
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Compatibility:</strong> Ready With SqlLite
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>File Types:</strong> All major formats supported
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Themes:</strong> Light/Dark mode with animations
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        {% if not session.user_id %}
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-rocket"></i> Get Started
+                            </a>
+                            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add counter animation for stats
+    document.addEventListener('DOMContentLoaded', function() {
+        const statsCards = document.querySelectorAll('.stats-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__bounceIn');
+                }
+            });
+        });
+        
+        statsCards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+</script>
+{% endblock %}
