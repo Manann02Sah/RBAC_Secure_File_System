@@ -132,3 +132,7 @@ For issues or questions, check the code comments or create an issue in the repos
 
 ## License
 This project is open source and available under the MIT License.
+
+## Deployment
+The deployed website for this project is at
+  =>   https://manan0sah.pythonanywhere.com
