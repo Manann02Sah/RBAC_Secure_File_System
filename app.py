@@ -56,6 +56,7 @@ def dashboard():
         conn.close()
         return render_template('user_dashboard.html', files=user_files)
 
+
 @app.route('/admin/users')
 @admin_required
 def manage_users():
@@ -92,6 +93,7 @@ def toggle_theme():
     new_theme = 'dark' if current_theme == 'light' else 'light'
     session['theme'] = new_theme
     return redirect(request.referrer or url_for('index'))
+
 
 if __name__ == '__main__':
     # Ensure upload directories exist
